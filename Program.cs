@@ -170,12 +170,21 @@ class FizzBuzz
         }
     }
 
+    private static void validateStartAndEnd(int start, int end)
+    {
+        if (!(start >= 0 && end > 0 && end > start))
+        {
+            throw new ArgumentException("Invalid range: Start and end must both be positive, and end must be greater than start.");
+        }
+    }
+
     public static void Main(string[] args)
     {
+        testResponseToNumber();
         int startInclusive = Convert.ToInt32(getUserInput("Where shall we begin (inclusive)?"));
         int endInclusive = Convert.ToInt32(getUserInput("When is it appropiate to end the execution (inclusive)?"));
 
-        testResponseToNumber();
+        validateStartAndEnd(startInclusive, endInclusive);
 
         mapOverIntegerRange(startInclusive, endInclusive, (input) => Console.WriteLine(responseToNumber(input)));
     }
