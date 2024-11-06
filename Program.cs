@@ -88,13 +88,14 @@ class FizzBuzz
                 case CompositionActions.ReplaceEverythingWithBong:
                     {
                         output = new List<string> { "Bong" };
+                        indexOfFirstB = 0; // all B (or lack of B's) get's replaced by Bong. at index 0;
                         break;
                     }
                 case CompositionActions.SuffixWithFezz:
                     {
                         int insertFezzAtIndex = output.Count; // assume no B found initally, set the index to the end
 
-                        if (indexOfFirstB > 0)
+                        if (indexOfFirstB >= 0)
                         { // i.e. B was added, overwrite with it's index
                             insertFezzAtIndex = indexOfFirstB;
                         }
@@ -114,60 +115,51 @@ class FizzBuzz
 
     public static void testResponseToNumber()
     {
-        // test cases written by ChatGPT, but (TODO not yet) verfied by me
+        // test cases written by ChatGPT, but verfied and fixed in places by a human 
         var testCases = new Dictionary<int, string> {
-            // Basic FizzBuzz Rules
             { 3, "Fizz" },                 // Multiple of 3
             { 5, "Buzz" },                 // Multiple of 5
             { 7, "Bang" },                 // Multiple of 7
             { 11, "Bong" },                // Multiple of 11
             { 13, "Fezz" },                // Multiple of 13
     
-            // Combined Cases (Multiples of combinations of rules)
             { 3 * 5, "FizzBuzz" },         // Multiple of both 3 and 5
             { 3 * 7, "FizzBang" },         // Multiple of both 3 and 7
             { 5 * 7, "BuzzBang" },         // Multiple of both 5 and 7
             { 3 * 5 * 7, "FizzBuzzBang" }, // Multiple of 3, 5, and 7
     
-            { 11 * 3, "BongFizz" },        // Multiple of both 11 and 3
-            { 11 * 5, "BongBuzz" },        // Multiple of both 11 and 5
-            { 11 * 7, "BongBang" },        // Multiple of both 11 and 7
-            { 11 * 3 * 5, "BongFizzBuzz" },// Multiple of 3, 5, and 11
+            { 11 * 3, "Bong" },            // Multiple of both 11 and 3, but Fizz should be dropped by Bong
+            { 11 * 5, "Bong" },            // Multiple of both 11 and 5, but Buzz should be dropped by Bong
+            { 11 * 7, "Bong" },            // Multiple of both 11 and 7, but Bang should be dropped by Bong
+            { 11 * 13, "FezzBong" },       // Multiple of both 11 and 13
     
-            { 13 * 3, "FezzFizz" },        // Multiple of both 13 and 3
-            { 13 * 5, "FezzBuzz" },        // Multiple of both 13 and 5
-            { 13 * 7, "FezzBang" },        // Multiple of both 13 and 7
-            { 13 * 3 * 5, "FezzFizzBuzz" },// Multiple of 3, 5, and 13
+            { 13 * 3, "FizzFezz" },        // Multiple of both 13 and 3 (fez goes to the end)
+            { 13 * 5, "FezzBuzz" },        // Multiple of both 13 and 5 (fez before Buzz)
+            { 13 * 7, "FezzBang" },        // Multiple of both 13 and 7 (fez before Bang)
+            { 13 * 3 * 5, "FizzFezzBuzz" },// Multiple of 3, 5, and 13 (fez before Buzz, but after Fizz)
+            { 13 * 3 * 5 * 7, "FizzFezzBuzzBang"  }, // Multiple of 3, 5, 7 and 13 (fez before Buzz, but after Fizz)
     
             // Multiple of 17, causing reversal
-            { 3 * 17, "BuzzFizz" },        // Multiple of 3 and 17
-            { 5 * 17, "BuzzFizz" },        // Multiple of 5 and 17
-            { 7 * 17, "BangFizz" },        // Multiple of 7 and 17
-            { 3 * 5 * 17, "BuzzFizzFizz" }, // Multiple of 3, 5, and 17
-            { 7 * 11, "BongBang" },        // Multiple of 7 and 11
-            { 7 * 11 * 13, "FezzBongBang" }, // Multiple of 7, 11, and 13, Fezz always in front of Bong
+            { 3 * 5 * 17, "BuzzFizz" },              // Multiple of 3, 5 and 17
+            { 5 * 17, "Buzz" },                      // Multiple of 5 and 17
+            { 3 * 7 * 17, "BangFizz" },              // Multiple of 3, 7 and 17
+            { 7 * 11 * 13 * 17, "BongFezz" },    // Multiple of 7, 11, and 13, Fezz always in front of Bong, but reversed
 
-                
-            // Test Cases for numbers that are not divisible by 3, 5, 7, 11, 13, or 17
+            // Simple cases
             { 1, "1" },                   // Not divisible by any of the special numbers
             { 2, "2" },                   // Not divisible by any of the special numbers
             { 4, "4" },                   // Not divisible by any of the special numbers
             { 8, "8" },                   // Not divisible by any of the special numbers
-            { 10, "10" },                 // Not divisible by any of the special numbers
-            { 14, "14" },                 // Not divisible by 3, 5, 11, 13, or 17
-            { 19, "19" },                 // Not divisible by any of the special numbers
-            { 23, "23" },                 // Not divisible by any of the special numbers
-            { 29, "29" },                 // Not divisible by any of the special numbers
-            { 31, "31" },                 // Not divisible by any of the special numbers
-            { 50, "50" },                 // Not divisible by 3, 5, 7, 11, 13, or 17
-            { 100, "100" },               // Not divisible by any of the special numbers
+
+            { 17, "17" }                  // Reverse, but applied on nothing hence should be displayed normally
         };
 
         foreach (var input in testCases.Keys)
         {
             var output = responseToNumber(input);
-            
-            Debug.Assert(output == testCases[input]);
+
+            Debug.Assert(output == testCases[input], 
+                "testResponseToNumber answered '" + output + "', but was expected to answer '" + testCases[input] + "' to input = " + input.ToString());
         }
     }
 
