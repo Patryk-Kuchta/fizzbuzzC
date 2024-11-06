@@ -8,22 +8,22 @@
         }
     }
 
-    private static bool divisible_by(int number, int divisior)
+    private static bool divisibleBy(int number, int divisior)
     {
         return number % divisior == 0;
     }
 
     private static void responseToNumber(int number)
     {
-        if (divisible_by(number, 15)) // checking for divisibilty by both 3 and 5 at the same time
+        if (divisibleBy(number, 15)) // checking for divisibilty by both 3 and 5 at the same time
         {
             Console.WriteLine("FizzBuzz");
         }
-        else if (divisible_by(number, 5)) 
+        else if (divisibleBy(number, 5)) 
         {
             Console.WriteLine("Buzz");
         }
-        else if (divisible_by(number, 3))
+        else if (divisibleBy(number, 3))
         {
             Console.WriteLine("Fizz");
         }
