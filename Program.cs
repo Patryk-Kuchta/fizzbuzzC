@@ -38,6 +38,6 @@
         int start = 1; // inclusive
         int end = 100; // inclusive
 
-        FizzBuzz.mapOverIntegerRange(start, end, responseToNumber);
+        mapOverIntegerRange(start, end, responseToNumber);
     }
 }
