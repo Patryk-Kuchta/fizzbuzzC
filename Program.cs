@@ -1,6 +1,6 @@
 ﻿class FizzBuzz
 {
-    static void mapOverIntegerRange(int start, int end, Action<int> action)
+    private static void mapOverIntegerRange(int start, int end, Action<int> action)
     {
         for (int index = start; index <= end; index++)
         {
@@ -8,17 +8,22 @@
         }
     }
 
-    static void responseToNumber(int number)
+    private static bool divisible_by(int number, int divisior)
     {
-        if (number % 15 == 0)
+        return number % divisior == 0;
+    }
+
+    private static void responseToNumber(int number)
+    {
+        if (divisible_by(number, 15)) // checking for divisibilty by both 3 and 5 at the same time
         {
             Console.WriteLine("FizzBuzz");
         }
-        else if (number % 5 == 0) 
+        else if (divisible_by(number, 5)) 
         {
             Console.WriteLine("Buzz");
         }
-        else if (number % 3 == 0)
+        else if (divisible_by(number, 3))
         {
             Console.WriteLine("Fizz");
         }
@@ -28,7 +33,7 @@
         }
     }
 
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
         int start = 1; // inclusive
         int end = 100; // inclusive
