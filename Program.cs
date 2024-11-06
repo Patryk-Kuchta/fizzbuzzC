@@ -1,4 +1,6 @@
-﻿class FizzBuzz
+﻿using System.Diagnostics;
+
+class FizzBuzz
 {
     private static void mapOverIntegerRange(int startInclusive, int endInclusive, Action<int> action)
     {
@@ -23,7 +25,7 @@
         ReverseAll
     }
 
-    private static void responseToNumber(int number)
+    private static string responseToNumber(int number)
     {
         var divisorsAndNames = new Dictionary<int, CompositionActions>
         {
@@ -50,9 +52,9 @@
             }
 
         if (productiveActionsCount > 0)
-            Console.WriteLine(composeString(answerComponents.ToArray()));
+            return composeString(answerComponents.ToArray());
         else
-            Console.WriteLine(number.ToString());
+            return number.ToString();
     }
 
     private static string composeString(CompositionActions[] list)
@@ -110,9 +112,9 @@
         return String.Join("", output.ToArray());
     }
 
-    public static void testComposeString()
+    public static void testResponseToNumber()
     {
-        // test cases written by ChatGPT, but verfied by me
+        // test cases written by ChatGPT, but (TODO not yet) verfied by me
         var testCases = new Dictionary<int, string> {
             // Basic FizzBuzz Rules
             { 3, "Fizz" },                 // Multiple of 3
@@ -143,10 +145,30 @@
             { 7 * 17, "BangFizz" },        // Multiple of 7 and 17
             { 3 * 5 * 17, "BuzzFizzFizz" }, // Multiple of 3, 5, and 17
             { 7 * 11, "BongBang" },        // Multiple of 7 and 11
-            { 7 * 11 * 13, "FezzBongBang" } // Multiple of 7, 11, and 13, Fezz always in front of Bong
+            { 7 * 11 * 13, "FezzBongBang" }, // Multiple of 7, 11, and 13, Fezz always in front of Bong
+
+                
+            // Test Cases for numbers that are not divisible by 3, 5, 7, 11, 13, or 17
+            { 1, "1" },                   // Not divisible by any of the special numbers
+            { 2, "2" },                   // Not divisible by any of the special numbers
+            { 4, "4" },                   // Not divisible by any of the special numbers
+            { 8, "8" },                   // Not divisible by any of the special numbers
+            { 10, "10" },                 // Not divisible by any of the special numbers
+            { 14, "14" },                 // Not divisible by 3, 5, 11, 13, or 17
+            { 19, "19" },                 // Not divisible by any of the special numbers
+            { 23, "23" },                 // Not divisible by any of the special numbers
+            { 29, "29" },                 // Not divisible by any of the special numbers
+            { 31, "31" },                 // Not divisible by any of the special numbers
+            { 50, "50" },                 // Not divisible by 3, 5, 7, 11, 13, or 17
+            { 100, "100" },               // Not divisible by any of the special numbers
         };
 
-
+        foreach (var input in testCases.Keys)
+        {
+            var output = responseToNumber(input);
+            
+            Debug.Assert(output == testCases[input]);
+        }
     }
 
     public static void Main(string[] args)
@@ -154,6 +176,6 @@
         int startInclusive = 1;
         int endInclusive = 100;
 
-        mapOverIntegerRange(startInclusive, endInclusive, responseToNumber);
+        mapOverIntegerRange(startInclusive, endInclusive, (input) => Console.WriteLine(responseToNumber(input)));
     }
 }
