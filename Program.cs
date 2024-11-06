@@ -15,31 +15,70 @@ class FizzBuzz
         return number % divisior == 0;
     }
 
+    private enum CompositionActions
+    { // order of the action matters, they must be applied in this order
+        AppendFizz,
+        AppendBuzz,
+        AppendBang,
+        ReplaceEverythingWithBong,
+        SuffixWithFezz,
+        ReverseAll
+    }
+
     private static void responseToNumber(int number)
     {
-        var divisorsAndNames = new Dictionary<int, string>
+        var divisorsAndNames = new Dictionary<int, CompositionActions>
         {
-            { 3, "Fizz" },
-            { 5, "Buzz" },
-
+            { 3, CompositionActions.AppendFizz },
+            { 5, CompositionActions.AppendBuzz },
+            { 11, CompositionActions.ReplaceEverythingWithBong },
+            { 13, CompositionActions.SuffixWithFezz },
+            { 17, CompositionActions.ReverseAll }
         };
 
-        List<string> answerComponents = new List<string> {};
+        List<CompositionActions> answerComponents = new List<CompositionActions> { };
 
         foreach (var divisor in divisorsAndNames.Keys)
-            if (isDivisibleBy(number, divisor)) {
+            if (isDivisibleBy(number, divisor))
+            {
                 answerComponents.Add(divisorsAndNames[divisor]);
             }
 
-        if (answerComponents.Count > 0) 
+        if (answerComponents.Count > 0)
             Console.WriteLine(composeString(answerComponents.ToArray()));
         else
             Console.WriteLine(number.ToString());
     }
 
-    private static string composeString(string[] list)
+    private static string composeString(CompositionActions[] list)
     {
-        return String.Join("", list);
+        List<string> output = new List<string>();
+
+        foreach (var action in list)
+        {
+            switch (action)
+            {
+                case CompositionActions.AppendFizz:
+                case CompositionActions.AppendBuzz:
+                case CompositionActions.AppendBang:
+                    {
+                        string name = action.ToString().Replace("Append", ""); // simply convert to string and remove the Append suffix
+                        output.Add(name);
+                        break;
+                    }
+                case CompositionActions.SuffixWithFezz:
+                    {
+                        output.Insert(0, "Fezz"); // todo, this is not really correct
+                        break;
+                    }
+                case CompositionActions.ReverseAll:
+                    {
+                        output.Reverse(); 
+                        break;
+                    }
+            }
+        }
+        return String.Join("|", output.ToArray()); // todo: remove the pipe symbol
     }
 
     public static void Main(string[] args)
