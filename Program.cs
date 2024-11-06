@@ -35,15 +35,21 @@
             { 17, CompositionActions.ReverseAll }
         };
 
-        List<CompositionActions> answerComponents = new List<CompositionActions> { };
+        var answerComponents = new List<CompositionActions> {};
+        int productiveActionsCount = 0; // i.e. do not lead to empty strings, currently anything but ReverseAll
 
         foreach (var divisor in divisorsAndNames.Keys)
             if (isDivisibleBy(number, divisor))
             {
+                var action = divisorsAndNames[divisor];
                 answerComponents.Add(divisorsAndNames[divisor]);
+                if (action != CompositionActions.ReverseAll)
+                {
+                    productiveActionsCount++;
+                }
             }
 
-        if (answerComponents.Count > 0)
+        if (productiveActionsCount > 0)
             Console.WriteLine(composeString(answerComponents.ToArray()));
         else
             Console.WriteLine(number.ToString());
@@ -51,7 +57,7 @@
 
     private static string composeString(CompositionActions[] list)
     {
-        List<string> output = new List<string>();
+        var output = new List<string>();
         int indexOfFirstB = -1; // initial set to negative to note that no Bs have been found. 
 
         foreach (var action in list)
@@ -96,12 +102,51 @@
                     }
                 case CompositionActions.ReverseAll:
                     {
-                        output.Reverse(); 
+                        output.Reverse();
                         break;
                     }
             }
         }
         return String.Join("", output.ToArray());
+    }
+
+    public static void testComposeString()
+    {
+        // test cases written by ChatGPT, but verfied by me
+        var testCases = new Dictionary<int, string> {
+            // Basic FizzBuzz Rules
+            { 3, "Fizz" },                 // Multiple of 3
+            { 5, "Buzz" },                 // Multiple of 5
+            { 7, "Bang" },                 // Multiple of 7
+            { 11, "Bong" },                // Multiple of 11
+            { 13, "Fezz" },                // Multiple of 13
+    
+            // Combined Cases (Multiples of combinations of rules)
+            { 3 * 5, "FizzBuzz" },         // Multiple of both 3 and 5
+            { 3 * 7, "FizzBang" },         // Multiple of both 3 and 7
+            { 5 * 7, "BuzzBang" },         // Multiple of both 5 and 7
+            { 3 * 5 * 7, "FizzBuzzBang" }, // Multiple of 3, 5, and 7
+    
+            { 11 * 3, "BongFizz" },        // Multiple of both 11 and 3
+            { 11 * 5, "BongBuzz" },        // Multiple of both 11 and 5
+            { 11 * 7, "BongBang" },        // Multiple of both 11 and 7
+            { 11 * 3 * 5, "BongFizzBuzz" },// Multiple of 3, 5, and 11
+    
+            { 13 * 3, "FezzFizz" },        // Multiple of both 13 and 3
+            { 13 * 5, "FezzBuzz" },        // Multiple of both 13 and 5
+            { 13 * 7, "FezzBang" },        // Multiple of both 13 and 7
+            { 13 * 3 * 5, "FezzFizzBuzz" },// Multiple of 3, 5, and 13
+    
+            // Multiple of 17, causing reversal
+            { 3 * 17, "BuzzFizz" },        // Multiple of 3 and 17
+            { 5 * 17, "BuzzFizz" },        // Multiple of 5 and 17
+            { 7 * 17, "BangFizz" },        // Multiple of 7 and 17
+            { 3 * 5 * 17, "BuzzFizzFizz" }, // Multiple of 3, 5, and 17
+            { 7 * 11, "BongBang" },        // Multiple of 7 and 11
+            { 7 * 11 * 13, "FezzBongBang" } // Multiple of 7, 11, and 13, Fezz always in front of Bong
+        };
+
+
     }
 
     public static void Main(string[] args)
