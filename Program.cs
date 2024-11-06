@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-class FizzBuzz
+﻿class FizzBuzz
 {
     private static void mapOverIntegerRange(int startInclusive, int endInclusive, Action<int> action)
     {
@@ -31,6 +29,7 @@ class FizzBuzz
         {
             { 3, CompositionActions.AppendFizz },
             { 5, CompositionActions.AppendBuzz },
+            { 7, CompositionActions.AppendBang },
             { 11, CompositionActions.ReplaceEverythingWithBong },
             { 13, CompositionActions.SuffixWithFezz },
             { 17, CompositionActions.ReverseAll }
@@ -53,22 +52,46 @@ class FizzBuzz
     private static string composeString(CompositionActions[] list)
     {
         List<string> output = new List<string>();
+        int indexOfFirstB = -1; // initial set to negative to note that no Bs have been found. 
 
         foreach (var action in list)
         {
             switch (action)
             {
                 case CompositionActions.AppendFizz:
+                    {
+                        output.Add("Fizz");
+                        break;
+                    }
                 case CompositionActions.AppendBuzz:
                 case CompositionActions.AppendBang:
                     {
-                        string name = action.ToString().Replace("Append", ""); // simply convert to string and remove the Append suffix
+                        // simply convert to string and remove the Append suffix
+                        string name = action.ToString().Replace("Append", "");
+
+                        if (indexOfFirstB < 0)
+                        { // i.e. B not yet added
+                            indexOfFirstB = output.Count;
+                        }
+
                         output.Add(name);
+                        break;
+                    }
+                case CompositionActions.ReplaceEverythingWithBong:
+                    {
+                        output = new List<string> { "Bong" };
                         break;
                     }
                 case CompositionActions.SuffixWithFezz:
                     {
-                        output.Insert(0, "Fezz"); // todo, this is not really correct
+                        int insertFezzAtIndex = output.Count; // assume no B found initally, set the index to the end
+
+                        if (indexOfFirstB > 0)
+                        { // i.e. B was added, overwrite with it's index
+                            insertFezzAtIndex = indexOfFirstB;
+                        }
+
+                        output.Insert(insertFezzAtIndex, "Fezz");
                         break;
                     }
                 case CompositionActions.ReverseAll:
@@ -78,7 +101,7 @@ class FizzBuzz
                     }
             }
         }
-        return String.Join("|", output.ToArray()); // todo: remove the pipe symbol
+        return String.Join("", output.ToArray());
     }
 
     public static void Main(string[] args)
