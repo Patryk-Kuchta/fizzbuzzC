@@ -157,6 +157,10 @@ class FizzBuzz
     {
         int startInclusive = 1;
         int endInclusive = 100;
+        Console.WriteLine("Hello, World!");
+
+        Console.WriteLine(FizzBuzz.getUserInput("Test?"));
+        Console.WriteLine(FizzBuzz.getUserInput());
 
         testResponseToNumber();
 
