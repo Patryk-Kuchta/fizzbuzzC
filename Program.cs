@@ -2,6 +2,23 @@
 
 class FizzBuzz
 {
+    private static string getUserInput(string? prompt = null)
+    {
+        if (prompt != null)
+        {
+            Console.WriteLine(prompt);
+        }
+        string? answer = Console.ReadLine();
+        if (answer != null)
+        {
+            return answer;
+        }
+        else
+        { //todo this can prob be better
+            return "";
+        }
+    }
+
     private static void mapOverIntegerRange(int startInclusive, int endInclusive, Action<int> action)
     {
         for (int index = startInclusive; index <= endInclusive; index++)
@@ -155,12 +172,8 @@ class FizzBuzz
 
     public static void Main(string[] args)
     {
-        int startInclusive = 1;
-        int endInclusive = 100;
-        Console.WriteLine("Hello, World!");
-
-        Console.WriteLine(FizzBuzz.getUserInput("Test?"));
-        Console.WriteLine(FizzBuzz.getUserInput());
+        int startInclusive = Convert.ToInt32(getUserInput("Where shall we begin (inclusive)?"));
+        int endInclusive = Convert.ToInt32(getUserInput("When is it appropiate to end the execution (inclusive)?"));
 
         testResponseToNumber();
 
