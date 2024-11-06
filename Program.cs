@@ -1,30 +1,30 @@
 ﻿class FizzBuzz
 {
-    static void mapOverIntegerRange(int start, int end)
+    static void mapOverIntegerRange(int start, int end, Action<int> action)
     {
         for (int index = start; index <= end; index++)
         {
-            Console.WriteLine(responseToNumber(index));
+            action(index);
         }
     }
 
-    static string responseToNumber(int number)
+    static void responseToNumber(int number)
     {
         if (number % 15 == 0)
         {
-            return "FizzBuzz";
+            Console.WriteLine("FizzBuzz");
         }
         else if (number % 5 == 0) 
         {
-            return "Buzz";
+            Console.WriteLine("Buzz");
         }
         else if (number % 3 == 0)
         {
-            return "Fizz";
+            Console.WriteLine("Fizz");
         }
         else
         {
-            return number.ToString();
+            Console.WriteLine(number.ToString());
         }
     }
 
@@ -33,6 +33,6 @@
         int start = 1; // inclusive
         int end = 100; // inclusive
 
-        FizzBuzz.mapOverIntegerRange(start, end);
+        FizzBuzz.mapOverIntegerRange(start, end, responseToNumber);
     }
 }
