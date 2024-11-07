@@ -37,7 +37,7 @@ class FizzBuzz
             { 17, CompositionActions.ReverseAll }
         };
 
-        var answerComponents = new List<CompositionActions> {};
+        var answerComponents = new List<CompositionActions> { };
         int productiveActionsCount = 0; // i.e. do not lead to empty strings, currently anything but ReverseAll
 
         foreach (var divisor in divisorsAndNames.Keys)
@@ -115,50 +115,42 @@ class FizzBuzz
 
     public static void testResponseToNumber()
     {
-        // test cases written by ChatGPT, but verfied and fixed in places by a human 
+        // Test cases written by ChatGPT, but verified and fixed in places by a human
         var testCases = new Dictionary<int, string> {
-            { 3, "Fizz" },                 // Multiple of 3
-            { 5, "Buzz" },                 // Multiple of 5
-            { 7, "Bang" },                 // Multiple of 7
-            { 11, "Bong" },                // Multiple of 11
-            { 13, "Fezz" },                // Multiple of 13
-    
-            { 3 * 5, "FizzBuzz" },         // Multiple of both 3 and 5
-            { 3 * 7, "FizzBang" },         // Multiple of both 3 and 7
-            { 5 * 7, "BuzzBang" },         // Multiple of both 5 and 7
-            { 3 * 5 * 7, "FizzBuzzBang" }, // Multiple of 3, 5, and 7
-    
-            { 11 * 3, "Bong" },            // Multiple of both 11 and 3, but Fizz should be dropped by Bong
-            { 11 * 5, "Bong" },            // Multiple of both 11 and 5, but Buzz should be dropped by Bong
-            { 11 * 7, "Bong" },            // Multiple of both 11 and 7, but Bang should be dropped by Bong
-            { 11 * 13, "FezzBong" },       // Multiple of both 11 and 13
-    
-            { 13 * 3, "FizzFezz" },        // Multiple of both 13 and 3 (fez goes to the end)
-            { 13 * 5, "FezzBuzz" },        // Multiple of both 13 and 5 (fez before Buzz)
-            { 13 * 7, "FezzBang" },        // Multiple of both 13 and 7 (fez before Bang)
-            { 13 * 3 * 5, "FizzFezzBuzz" },// Multiple of 3, 5, and 13 (fez before Buzz, but after Fizz)
-            { 13 * 3 * 5 * 7, "FizzFezzBuzzBang"  }, // Multiple of 3, 5, 7 and 13 (fez before Buzz, but after Fizz)
-    
-            // Multiple of 17, causing reversal
-            { 3 * 5 * 17, "BuzzFizz" },              // Multiple of 3, 5 and 17
-            { 5 * 17, "Buzz" },                      // Multiple of 5 and 17
-            { 3 * 7 * 17, "BangFizz" },              // Multiple of 3, 7 and 17
-            { 7 * 11 * 13 * 17, "BongFezz" },    // Multiple of 7, 11, and 13, Fezz always in front of Bong, but reversed
-
-            // Simple cases
-            { 1, "1" },                   // Not divisible by any of the special numbers
-            { 2, "2" },                   // Not divisible by any of the special numbers
-            { 4, "4" },                   // Not divisible by any of the special numbers
-            { 8, "8" },                   // Not divisible by any of the special numbers
-
-            { 17, "17" }                  // Reverse, but applied on nothing hence should be displayed normally
+            { 3, "Fizz" },
+            { 5, "Buzz" },
+            { 7, "Bang" },
+            { 11, "Bong" },
+            { 13, "Fezz" },
+            { 3 * 5, "FizzBuzz" },
+            { 3 * 7, "FizzBang" },
+            { 5 * 7, "BuzzBang" },
+            { 3 * 5 * 7, "FizzBuzzBang" },
+            { 11 * 3, "Bong" },
+            { 11 * 5, "Bong" },
+            { 11 * 7, "Bong" },
+            { 11 * 13, "FezzBong" },
+            { 13 * 3, "FizzFezz" },
+            { 13 * 5, "FezzBuzz" },
+            { 13 * 7, "FezzBang" },
+            { 13 * 3 * 5, "FizzFezzBuzz" },
+            { 13 * 3 * 5 * 7, "FizzFezzBuzzBang" },
+            { 3 * 5 * 17, "BuzzFizz" },
+            { 5 * 17, "Buzz" },
+            { 3 * 7 * 17, "BangFizz" },
+            { 7 * 11 * 13 * 17, "BongFezz" },
+            { 1, "1" },
+            { 2, "2" },
+            { 4, "4" },
+            { 8, "8" },
+            { 17, "17" }
         };
 
         foreach (var input in testCases.Keys)
         {
             var output = responseToNumber(input);
 
-            Debug.Assert(output == testCases[input], 
+            Debug.Assert(output == testCases[input],
                 "testResponseToNumber answered '" + output + "', but was expected to answer '" + testCases[input] + "' to input = " + input.ToString());
         }
     }
