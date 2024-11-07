@@ -158,6 +158,8 @@ class FizzBuzz
         int startInclusive = 1;
         int endInclusive = 100;
 
+        testResponseToNumber();
+
         mapOverIntegerRange(startInclusive, endInclusive, (input) => Console.WriteLine(responseToNumber(input)));
     }
 }
