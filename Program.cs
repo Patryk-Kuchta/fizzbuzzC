@@ -1,8 +1,8 @@
 ﻿class FizzBuzz
 {
-    private static void mapOverIntegerRange(int startInclusive, int end, Action<int> action)
+    private static void mapOverIntegerRange(int startInclusive, int endInclusive, Action<int> action)
     {
-        for (int index = startInclusive; index <= end; index++)
+        for (int index = startInclusive; index <= endInclusive; index++)
         {
             action(index);
         }
