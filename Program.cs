@@ -15,8 +15,9 @@ class FizzBuzz
         return number % divisior == 0;
     }
 
+    // order of the action matters, they must be applied in this order
     private enum CompositionActions
-    { // order of the action matters, they must be applied in this order
+    {
         AppendFizz,
         AppendBuzz,
         AppendBang,
@@ -38,7 +39,7 @@ class FizzBuzz
         };
 
         var answerComponents = new List<CompositionActions> { };
-        int productiveActionsCount = 0; // i.e. do not lead to empty strings, currently anything but ReverseAll
+        bool showNumber = true;
 
         foreach (var divisor in divisorsAndNames.Keys)
             if (isDivisibleBy(number, divisor))
@@ -46,12 +47,10 @@ class FizzBuzz
                 var action = divisorsAndNames[divisor];
                 answerComponents.Add(divisorsAndNames[divisor]);
                 if (action != CompositionActions.ReverseAll)
-                {
-                    productiveActionsCount++;
-                }
+                    showNumber = false;
             }
 
-        if (productiveActionsCount > 0)
+        if (showNumber)
             return composeString(answerComponents.ToArray());
         else
             return number.ToString();
@@ -60,7 +59,7 @@ class FizzBuzz
     private static string composeString(CompositionActions[] list)
     {
         var output = new List<string>();
-        int indexOfFirstB = -1; // initial set to negative to note that no Bs have been found. 
+        int indexOfFirstB = -1;
 
         foreach (var action in list)
         {
@@ -74,11 +73,10 @@ class FizzBuzz
                 case CompositionActions.AppendBuzz:
                 case CompositionActions.AppendBang:
                     {
-                        // simply convert to string and remove the Append suffix
                         string name = action.ToString().Replace("Append", "");
 
                         if (indexOfFirstB < 0)
-                        { // i.e. B not yet added
+                        {
                             indexOfFirstB = output.Count;
                         }
 
@@ -88,15 +86,15 @@ class FizzBuzz
                 case CompositionActions.ReplaceEverythingWithBong:
                     {
                         output = new List<string> { "Bong" };
-                        indexOfFirstB = 0; // all B (or lack of B's) get's replaced by Bong. at index 0;
+                        indexOfFirstB = 0;
                         break;
                     }
                 case CompositionActions.SuffixWithFezz:
                     {
-                        int insertFezzAtIndex = output.Count; // assume no B found initally, set the index to the end
+                        int insertFezzAtIndex = output.Count;
 
                         if (indexOfFirstB >= 0)
-                        { // i.e. B was added, overwrite with it's index
+                        {
                             insertFezzAtIndex = indexOfFirstB;
                         }
 
