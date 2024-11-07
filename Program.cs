@@ -51,9 +51,9 @@ class FizzBuzz
             }
 
         if (showNumber)
-            return composeString(answerComponents.ToArray());
-        else
             return number.ToString();
+        else
+            return composeString(answerComponents.ToArray());
     }
 
     private static string composeString(CompositionActions[] list)
