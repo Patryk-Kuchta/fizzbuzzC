@@ -91,12 +91,7 @@ class FizzBuzz
                     }
                 case CompositionActions.SuffixWithFezz:
                     {
-                        int insertFezzAtIndex = output.Count;
-
-                        if (indexOfFirstB.HasValue)
-                        {
-                            insertFezzAtIndex = indexOfFirstB;
-                        }
+                        int insertFezzAtIndex = indexOfFirstB ?? output.Count;
 
                         output.Insert(insertFezzAtIndex, "Fezz");
                         break;
