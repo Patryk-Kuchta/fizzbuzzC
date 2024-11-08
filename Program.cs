@@ -59,7 +59,7 @@ class FizzBuzz
     private static string composeString(CompositionActions[] list)
     {
         var output = new List<string>();
-        int indexOfFirstB = -1;
+        int? indexOfFirstB = null;
 
         foreach (var action in list)
         {
@@ -75,7 +75,7 @@ class FizzBuzz
                     {
                         string name = action.ToString().Replace("Append", "");
 
-                        if (indexOfFirstB < 0)
+                        if (!indexOfFirstB.HasValue)
                         {
                             indexOfFirstB = output.Count;
                         }
@@ -93,7 +93,7 @@ class FizzBuzz
                     {
                         int insertFezzAtIndex = output.Count;
 
-                        if (indexOfFirstB >= 0)
+                        if (indexOfFirstB.HasValue)
                         {
                             insertFezzAtIndex = indexOfFirstB;
                         }
