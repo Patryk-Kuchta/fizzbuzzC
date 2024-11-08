@@ -108,7 +108,6 @@ class FizzBuzz
 
     public static void testResponseToNumber()
     {
-        // Test cases written by ChatGPT, but verified and fixed in places by a human
         var testCases = new Dictionary<int, string> {
             { 3, "Fizz" },
             { 5, "Buzz" },
