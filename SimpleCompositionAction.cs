@@ -1,13 +1,5 @@
-﻿//{ 3, CompositionActions.AppendFizz },
-//                { 5, CompositionActions.AppendBuzz },
-//                { 7, CompositionActions.AppendBang },
-//                { 11, CompositionActions.ReplaceEverythingWithBong },
-//                { 13, CompositionActions.SuffixWithFezz },
-//                { 17, CompositionActions.ReverseAll }
-
-namespace FizzBuzzNamespace
+﻿namespace FizzBuzzNamespace
 {
-    // order of the action matters, they must be applied in this order
 
     public class SimpleCompositionAction
     {

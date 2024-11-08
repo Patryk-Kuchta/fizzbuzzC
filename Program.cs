@@ -12,12 +12,7 @@ namespace FizzBuzzNamespace
             }
         }
 
-        private static bool isDivisibleBy(int number, int divisior)
-        {
-            return number % divisior == 0;
-        }
-
-        private static string responseToNumber(int number)
+        public static string responseToNumber(int number)
         {
             // order of the action matters, they must be applied in this order
             SimpleCompositionAction[] definedActions = [
@@ -44,53 +39,12 @@ namespace FizzBuzzNamespace
                 return String.Join("", output.ToArray());
         }
 
-        public static void testResponseToNumber()
-        {
-            var testCases = new Dictionary<int, string> {
-                { 3, "Fizz" },
-                { 5, "Buzz" },
-                { 7, "Bang" },
-                { 11, "Bong" },
-                { 13, "Fezz" },
-                { 3 * 5, "FizzBuzz" },
-                { 3 * 7, "FizzBang" },
-                { 5 * 7, "BuzzBang" },
-                { 3 * 5 * 7, "FizzBuzzBang" },
-                { 11 * 3, "Bong" },
-                { 11 * 5, "Bong" },
-                { 11 * 7, "Bong" },
-                { 11 * 13, "FezzBong" },
-                { 13 * 3, "FizzFezz" },
-                { 13 * 5, "FezzBuzz" },
-                { 13 * 7, "FezzBang" },
-                { 13 * 3 * 5, "FizzFezzBuzz" },
-                { 13 * 3 * 5 * 7, "FizzFezzBuzzBang" },
-                { 3 * 5 * 17, "BuzzFizz" },
-                { 5 * 17, "Buzz" },
-                { 3 * 7 * 17, "BangFizz" },
-                { 7 * 11 * 13 * 17, "BongFezz" },
-                { 1, "1" },
-                { 2, "2" },
-                { 4, "4" },
-                { 8, "8" },
-                { 17, "17" }
-            };
-
-            foreach (var input in testCases.Keys)
-            {
-                var output = responseToNumber(input);
-
-                Debug.Assert(output == testCases[input],
-                    "testResponseToNumber answered '" + output + "', but was expected to answer '" + testCases[input] + "' to input = " + input.ToString());
-            }
-        }
-
         public static void Main(string[] args)
         {
             int startInclusive = 1;
             int endInclusive = 100;
 
-            testResponseToNumber();
+            Test.testResponseToNumber();
 
             mapOverIntegerRange(startInclusive, endInclusive, (input) => Console.WriteLine(responseToNumber(input)));
         }
