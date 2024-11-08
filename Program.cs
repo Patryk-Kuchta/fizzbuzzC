@@ -62,7 +62,7 @@ class FizzBuzz
             if (isDivisibleBy(number, divisor))
             {
                 var action = divisorsAndNames[divisor];
-                answerComponents.Add(divisorsAndNames[divisor]);
+                answerComponents.Add(action);
                 if (action != CompositionActions.ReverseAll)
                     showNumber = false;
             }
