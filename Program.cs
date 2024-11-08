@@ -1,43 +1,52 @@
-﻿class FizzBuzz
+﻿using System.Diagnostics;
+
+namespace FizzBuzzNamespace
 {
-    private static void mapOverIntegerRange(int startInclusive, int endInclusive, Action<int> action)
+    class FizzBuzz
     {
-        for (int index = startInclusive; index <= endInclusive; index++)
+        private static void mapOverIntegerRange(int startInclusive, int endInclusive, Action<int> action)
         {
-            action(index);
+            for (int index = startInclusive; index <= endInclusive; index++)
+            {
+                action(index);
+            }
         }
-    }
 
-    private static bool isDivisibleBy(int number, int divisior)
-    {
-        return number % divisior == 0;
-    }
+        public static string responseToNumber(int number)
+        {
+            // order of the action matters, they must be applied in this order
+            SimpleCompositionAction[] definedActions = [
+                new SimpleCompositionAction(3, "Fizz"),
+                new SimpleCompositionAction(5, "Buzz"),
+                new SimpleCompositionAction(7, "Bang"),
 
-    private static void responseToNumber(int number)
-    {
-        if (isDivisibleBy(number, 3) && isDivisibleBy(number, 5))
-        {
-            Console.WriteLine("FizzBuzz");
-        }
-        else if (isDivisibleBy(number, 5)) 
-        {
-            Console.WriteLine("Buzz");
-        }
-        else if (isDivisibleBy(number, 3))
-        {
-            Console.WriteLine("Fizz");
-        }
-        else
-        {
-            Console.WriteLine(number.ToString());
-        }
-    }
+                new ReplacerCompositionAction(11, "Bong"),
+                new SuffixBeforeBCompositionAction(13, "Fezz"),
+                new ReverseAllCompositionAction(17)
+            ];
 
-    public static void Main(string[] args)
-    {
-        int startInclusive = 1;
-        int endInclusive = 100;
+            var output = new List<string>();
 
-        mapOverIntegerRange(startInclusive, endInclusive, responseToNumber);
+            foreach (var action in definedActions)
+                if (action.isMeetingActionCondition(number))
+                {
+                    output = action.apply(output);
+                }
+
+            if (output.Count == 0)
+                return number.ToString();
+            else
+                return String.Join("", output.ToArray());
+        }
+
+        public static void Main(string[] args)
+        {
+            int startInclusive = 1;
+            int endInclusive = 100;
+
+            Test.testResponseToNumber();
+
+            mapOverIntegerRange(startInclusive, endInclusive, (input) => Console.WriteLine(responseToNumber(input)));
+        }
     }
 }
