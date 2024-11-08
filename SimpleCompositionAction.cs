@@ -53,4 +53,35 @@ namespace FizzBuzzNamespace
             return new List<string> { base.Label };
         }
     }
+
+    public class SuffixBeforeBCompositionAction : SimpleCompositionAction
+    {
+        public SuffixBeforeBCompositionAction(int divisorExpected, string label) : base(divisorExpected, label) { }
+
+        public override List<string> apply(List<string> currentLabelSet)
+        {
+            int? indexOfFirstB = null;
+            for (int i = 0; i <= currentLabelSet.Count; i++)
+            {
+                if (indexOfFirstB == null && currentLabelSet[i].StartsWith('B'))
+                {
+                    indexOfFirstB = i;
+                }
+            }
+
+            currentLabelSet.Insert(indexOfFirstB ?? currentLabelSet.Count, Label);
+            return currentLabelSet;
+        }
+    }
+
+    public class ReverseAllCompositionAction : SimpleCompositionAction
+    {
+        public ReverseAllCompositionAction(int divisorExpected, string label) : base(divisorExpected, label) { }
+
+        public override List<string> apply(List<string> currentLabelSet)
+        {
+            currentLabelSet.Reverse();
+            return currentLabelSet;
+        }
+    }
 }
