@@ -19,82 +19,29 @@ namespace FizzBuzzNamespace
 
         private static string responseToNumber(int number)
         {
-            var divisorsAndNames = new Dictionary<int, CompositionActions>
-            {
-                { 3, CompositionActions.AppendFizz },
-                { 5, CompositionActions.AppendBuzz },
-                { 7, CompositionActions.AppendBang },
-                { 11, CompositionActions.ReplaceEverythingWithBong },
-                { 13, CompositionActions.SuffixWithFezz },
-                { 17, CompositionActions.ReverseAll }
-            };
+            // order of the action matters, they must be applied in this order
+            SimpleCompositionAction[] definedActions = [
+                new SimpleCompositionAction(3, "Fizz"),
+                new SimpleCompositionAction(5, "Buzz"),
+                new SimpleCompositionAction(7, "Bang"),
 
-            var answerComponents = new List<CompositionActions> { };
-            bool showNumber = true;
+                new ReplacerCompositionAction(11, "Bong"),
+                new SuffixBeforeBCompositionAction(13, "Fezz"),
+                new ReverseAllCompositionAction(17)
+            ];
 
-            foreach (var divisor in divisorsAndNames.Keys)
-                if (isDivisibleBy(number, divisor))
+            var output = new List<string>();
+
+            foreach (var action in definedActions)
+                if (action.isMeetingActionCondition(number))
                 {
-                    var action = divisorsAndNames[divisor];
-                    answerComponents.Add(action);
-                    if (action != CompositionActions.ReverseAll)
-                        showNumber = false;
+                    output = action.apply(output);
                 }
 
-            if (showNumber)
+            if (output.Count == 0)
                 return number.ToString();
             else
-                return composeString(answerComponents.ToArray());
-        }
-
-        private static string composeString(CompositionActions[] list)
-        {
-            var output = new List<string>();
-            int? indexOfFirstB = null;
-
-            foreach (var action in list)
-            {
-                switch (action)
-                {
-                    case CompositionActions.AppendFizz:
-                        {
-                            output.Add("Fizz");
-                            break;
-                        }
-                    case CompositionActions.AppendBuzz:
-                    case CompositionActions.AppendBang:
-                        {
-                            string name = action.ToString().Replace("Append", "");
-
-                            if (!indexOfFirstB.HasValue)
-                            {
-                                indexOfFirstB = output.Count;
-                            }
-
-                            output.Add(name);
-                            break;
-                        }
-                    case CompositionActions.ReplaceEverythingWithBong:
-                        {
-                            output = new List<string> { "Bong" };
-                            indexOfFirstB = 0;
-                            break;
-                        }
-                    case CompositionActions.SuffixWithFezz:
-                        {
-                            int insertFezzAtIndex = indexOfFirstB ?? output.Count;
-
-                            output.Insert(insertFezzAtIndex, "Fezz");
-                            break;
-                        }
-                    case CompositionActions.ReverseAll:
-                        {
-                            output.Reverse();
-                            break;
-                        }
-                }
-            }
-            return String.Join("", output.ToArray());
+                return String.Join("", output.ToArray());
         }
 
         public static void testResponseToNumber()

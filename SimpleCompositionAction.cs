@@ -1,7 +1,4 @@
-﻿using FizzBuzzNamespace;
-using System.Reflection.Emit;
-
-//{ 3, CompositionActions.AppendFizz },
+﻿//{ 3, CompositionActions.AppendFizz },
 //                { 5, CompositionActions.AppendBuzz },
 //                { 7, CompositionActions.AppendBang },
 //                { 11, CompositionActions.ReplaceEverythingWithBong },
@@ -11,15 +8,6 @@ using System.Reflection.Emit;
 namespace FizzBuzzNamespace
 {
     // order of the action matters, they must be applied in this order
-    public enum CompositionActions
-    {
-        AppendFizz,
-        AppendBuzz,
-        AppendBang,
-        ReplaceEverythingWithBong,
-        SuffixWithFezz,
-        ReverseAll
-    }
 
     public class SimpleCompositionAction
     {
@@ -61,7 +49,7 @@ namespace FizzBuzzNamespace
         public override List<string> apply(List<string> currentLabelSet)
         {
             int? indexOfFirstB = null;
-            for (int i = 0; i <= currentLabelSet.Count; i++)
+            for (int i = 0; i < currentLabelSet.Count; i++)
             {
                 if (indexOfFirstB == null && currentLabelSet[i].StartsWith('B'))
                 {
@@ -76,7 +64,7 @@ namespace FizzBuzzNamespace
 
     public class ReverseAllCompositionAction : SimpleCompositionAction
     {
-        public ReverseAllCompositionAction(int divisorExpected, string label) : base(divisorExpected, label) { }
+        public ReverseAllCompositionAction(int divisorExpected) : base(divisorExpected, "N/A") { }
 
         public override List<string> apply(List<string> currentLabelSet)
         {
